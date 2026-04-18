@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>الأطلس التفاعلي - الكناية في البلاغة العربية + البلاغة العُمانية</title>
+    <!-- مكتبة AOS للحركات -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Font Awesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e8f0f9 0%, #d4e0ec 100%);
+            font-family: 'Segoe UI', 'Cairo', 'Tahoma', 'Arabic Typesetting', 'Simplified Arabic', 'Times New Roman', serif;
+            color: #1a2a3f;
+            line-height: 1.65;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background: #1e3a5f;
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            backdrop-filter: blur(10px);
+        }
+        .navbar a {
+            color: #ffd966;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 18px;
+            border-radius: 40px;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+        .navbar a:hover {
+            background: #d4af37;
+            color: #1e3a5f;
+            transform: scale(1.05);
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 64px 32px 64px 32px;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+            padding: 32px 40px;
+            margin-top: 30px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e4a76, #b8860b, #2c5282);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            margin-bottom: 12px;
+            animation: fadeInDown 1s ease;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .sub {
+            text-align: center;
+            color: #2c5282;
+            border-bottom: 3px solid #d4af37;
+            display: inline-block;
+            width: auto;
+            margin: 0 auto 35px auto;
+            padding-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        h2 {
+            font-size: 1.9rem;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            padding-right: 20px;
+            border-right: 12px solid #d4af37;
+            background: linear-gradient(to left, #fef5e7, #ffffff);
+            border-radius: 40px 0 0 40px;
+            color: #1e3a5f;
+            scroll-margin-top: 80px;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin: 25px 0 15px 0;
+            color: #2b4f6e;
+            padding-right: 12px;
+            border-right: 5px solid #b8860b;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 48px;
+            padding: 22px 30px;
+            margin: 30px 0;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        .concept-image {
+            background: linear-gradient(135deg, #fef5e7, #fff9f0);
+            border-radius: 32px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px solid #e6b422;
+        }
+        .concept-image i {
+            font-size: 3rem;
+            color: #d4af37;
+            margin-bottom: 10px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .concept-image .icon-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #1e3a5f;
+        }
+
+        .ascii-art {
+            background: #0f1a1f;
+            color: #c7f0e8;
+            font-family: 'Courier New', 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.45;
+            white-space: pre;
+            overflow-x: auto;
+            padding: 20px;
+            border-radius: 32px;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .poetry-box {
+            background: #fef3e2;
+            border-right: 8px solid #c97e0a;
+            font-family: 'Traditional Arabic', 'Amiri', serif;
+            font-size: 1.2rem;
+            padding: 18px;
+            border-radius: 28px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .example-card {
+            background: #eef2fa;
+            border-radius: 28px;
+            padding: 16px;
+            margin: 15px 0;
+            border-right: 6px solid #2c5282;
+        }
+
+        /* القسم العُماني */
+        .omani-card {
+            background: #f0f4e8;
+            border-radius: 28px;
+            padding: 16px;
+            margin: 15px 0;
+            border-right: 6px solid #006442;
+        }
+        
+        .omani-badge {
+            display: inline-block;
+            background: #006442;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-right: 10px;
+        }
+        
+        .omani-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+        .omani-table th {
+            background: #006442;
+            color: white;
+            padding: 12px;
+        }
+        .omani-table td {
+            border: 1px solid #cfdec9;
+            padding: 10px;
+            background-color: #fefdf8;
+        }
+
+        /* أقسام الأسئلة التفاعلية */
+        .quiz-section {
+            background: linear-gradient(135deg, #f7f3e8, #f0ebe0);
+            border-radius: 48px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        .quiz-question {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .quiz-question p {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .quiz-question label {
+            display: block;
+            margin: 10px 20px;
+            cursor: pointer;
+        }
+        .quiz-question input[type="radio"] {
+            margin-left: 10px;
+            transform: scale(1.1);
+        }
+        .quiz-btn {
+            background: #d4af37;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 60px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            margin: 10px 10px 10px 0;
+            transition: 0.3s;
+        }
+        .quiz-btn:hover {
+            background: #b58d1a;
+            transform: scale(1.02);
+            color: white;
+        }
+        .quiz-result {
+            background: #e9eef3;
+            padding: 20px;
+            border-radius: 32px;
+            margin-top: 25px;
+            border-right: 5px solid #2c5282;
+        }
+        .correct-answer {
+            background: #d4edda;
+            color: #155724;
+            padding: 8px 15px;
+            border-radius: 25px;
+            margin: 5px 0;
+        }
+        .wrong-answer {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 8px 15px;
+            border-radius: 25px;
+            margin: 5px 0;
+        }
+        .score-badge {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            background: #1e3a5f;
+            color: #ffd966;
+            border-radius: 50px;
+            margin-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 0.85rem;
+            color: #4a5b6e;
+            border-top: 1px solid #ccc;
+        }
+
+        @media (max-width: 700px) {
+            .container { padding: 20px; }
+            h1 { font-size: 1.8rem; }
+            .ascii-art { font-size: 9px; }
+            .navbar a { font-size: 0.75rem; padding: 5px 12px; }
+            .quiz-question p { font-size: 0.95rem; }
+            .omani-table th, .omani-table td { font-size: 0.8rem; padding: 6px; }
+        }
+
+        [data-aos] {
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="#definition"><i class="fas fa-book-open"></i> التعريف</a>
+    <a href="#comparison"><i class="fas fa-balance-scale"></i> المقارنة</a>
+    <a href="#poetry"><i class="fas fa-music"></i> شواهد شعرية</a>
+    <a href="#quran"><i class="fas fa-quran"></i> قرآن</a>
+    <a href="#secrets"><i class="fas fa-gem"></i> الأسرار</a>
+    <a href="#examples"><i class="fas fa-chalkboard-teacher"></i> أمثلة</a>
+    <a href="#omani"><i class="fas fa-landmark"></i> بلاغة عُمانية</a>
+    <a href="#quiz"><i class="fas fa-question-circle"></i> اختبار</a>
+</div>
+
+<div class="container">
+    <h1 data-aos="fade-down">📖 الأطلس المصور التفاعلي<br>الكناية في اللغة العربية + البلاغة العُمانية</h1>
+    <div style="text-align: center;" data-aos="fade-up"><div class="sub">بلاغة البيان • جواز المعنيين • شواهد شعرية • أمثال وحكم عُمانية</div></div>
+
+    <!-- ========================================= -->
+    <!-- القسم 1: التعريف -->
+    <!-- ========================================= -->
+    <h2 id="definition" data-aos="fade-right">🧠 ❶ جوهر الكناية</h2>
+    <div class="card" data-aos="flip-right">
+        <div class="concept-image">
+            <i class="fas fa-comment-dots"></i>
+            <div class="icon-title">التعريف المصور</div>
+            <div style="font-size: 1.1rem; margin-top: 10px;">🔹 الكناية: لفظ أريد به غير معناه مع جواز إرادة الأصل 🔹</div>
+        </div>
+        <div class="ascii-art">
+╔══════════════════════════════════════════════════════════════════╗
+║  قال المتحدث: "زيد كثير الرماد"                                 ║
+║  هل يجوز أن يكون رماده كثيرًا حقيقة؟ نعم ✅ → كناية             ║
+║  الخلاصة: الكناية = لفظ يحتمل المعنى الحقيقي والمجازي معًا     ║
+╚══════════════════════════════════════════════════════════════════╝
+        </div>
+        <div class="example-card">
+            <i class="fas fa-lightbulb"></i> <strong>شرح المثال:</strong> "كثير الرماد" قد تعني حقيقة أن رماده كثير، وفي نفس الوقت تعني أنه كريم. هذا جواز المعنيين هو سر الكناية.
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- القسم 2: المقارنة -->
+    <!-- ========================================= -->
+    <h2 id="comparison" data-aos="fade-right">⚖️ ❷ كناية vs مجاز vs استعارة</h2>
+    <div class="card" data-aos="zoom-in">
+        <div class="concept-image">
+            <i class="fas fa-exchange-alt"></i>
+            <div class="icon-title">المقارنة البصرية</div>
+        </div>
+        <div class="ascii-art">
+┌─────────────────────────────────────────────────────────────────┐
+│ الكناية: "كثير الرماد" → حقيقي + مجازي ✅                       │
+│ المجاز: "أسد" → يمتنع المعنى الحقيقي ❌                         │
+│ الاستعارة: "زيد أسد" → يمتنع الحقيقي ❌                         │
+└─────────────────────────────────────────────────────────────────┘
+        </div>
+        <div class="example-card">
+            <i class="fas fa-check-circle" style="color: green;"></i> <strong>الخلاصة:</strong> الكناية تختلف عن المجاز والاستعارة بجواز إرادة المعنى الحقيقي.
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- القسم 3: شواهد شعرية -->
+    <!-- ========================================= -->
+    <h2 id="poetry" data-aos="fade-right">🎭 ❸ شواهد شعرية</h2>
+    <div class="card" data-aos="flip-left">
+        <div class="concept-image">
+            <i class="fas fa-feather-alt"></i>
+            <div class="icon-title">الشعر العربي والكناية</div>
+        </div>
+        <div class="poetry-box">
+            "طَوِيلُ النِّجَادِ رَفِيعُ العِمَادِ ... كَثِيرُ الرَّمَادِ إِذَا مَا شَتَا"
+        </div>
+        <div class="ascii-art">
+طويل النجاد ← كناية قريبة عن طول القامة
+كثير الرماد ← كناية بعيدة عن الكرم
+        </div>
+        <div class="poetry-box">
+            "جَبَانُ الكَلْبِ مَهْزُولُ الفَصِيلِ ... نَؤُومُ الضُّحَى"
+        </div>
+        <div class="ascii-art">
+جبان الكلب ← كناية عن الكرم
+مهزول الفصيل ← كناية عن البخل
+نؤوم الضحى ← كناية عن الترف
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- القسم 4: شواهد قرآنية -->
+    <!-- ========================================= -->
+    <h2 id="quran" data-aos="fade-right">📖 ❹ شواهد قرآنية</h2>
+    <div class="card" data-aos="fade-up">
+        <div class="concept-image">
+            <i class="fas fa-quran"></i>
+            <div class="icon-title">البيان القرآني</div>
+        </div>
+        <div class="ascii-art">
+﴿وَلا تَجْعَلْ يَدَكَ مَغْلُولَةً إِلَى عُنُقِكَ﴾ ← البخل
+﴿وَاخْفِضْ لَهُمَا جَنَاحَ الذُّلِّ مِنَ الرَّحْمَةِ﴾ ← التواضع
+﴿وَاحْمِلْنَا عَلَى ذَاتِ أَلْوَاحٍ وَدُسُرٍ﴾ ← السفينة
+﴿وَأُحِيطَ بِثَمَرِهِ فَأَصْبَحَ يُقَلِّبُ كَفَّيْهِ﴾ ← الندم
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- القسم 5: الأسرار البلاغية -->
+    <!-- ========================================= -->
+    <h2 id="secrets" data-aos="fade-right">✨ ❺ الأسرار البلاغية</h2>
+    <div class="card" data-aos="flip-right">
+        <div class="concept-image">
+            <i class="fas fa-crown"></i>
+            <div class="icon-title">لماذا الكناية أبلغ؟</div>
+        </div>
+        <div class="ascii-art">
+1. تصوير المعنويات بالمحسوسات (العفة ← نقي الثوب)
+2. الإتيان بالدليل مع المدعي في لفظ واحد
+3. الإيجاز مع الإيضاح
+4. التعبير عن المحذور بأدب
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- القسم 6: أمثلة محلولة -->
+    <!-- ========================================= -->
+    <h2 id="examples" data-aos="fade-right">📚 ❻ أمثلة محلولة</h2>
+    <div class="card" data-aos="zoom-in">
+        <div class="concept-image">
+            <i class="fas fa-sitemap"></i>
+            <div class="icon-title">تحليل كنايات متنوعة</div>
+        </div>
+        <div class="example-card">
+            <strong>📌 "هو نقي الثوب"</strong><br>
+            <i class="fas fa-tshirt"></i> الصورة: ثوب نقي ← العفة والنزاهة.<br>
+            <i class="fas fa-arrow-left"></i> النوع: كناية عن صفة قريبة.
+        </div>
+        <div class="example-card">
+            <strong>📌 "موطن الأسرار"</strong><br>
+            <i class="fas fa-heart"></i> الصورة: مكان الأسرار ← القلب.<br>
+            <i class="fas fa-arrow-left"></i> النوع: كناية عن موصوف.
+        </div>
+        <div class="example-card">
+            <strong>📌 "الخيل معقود في نواصيها الخير"</strong><br>
+            <i class="fas fa-horse"></i> الصورة: الخير في النواصي ← الخيل خير.<br>
+            <i class="fas fa-arrow-left"></i> النوع: كناية عن نسبة.
+        </div>
+        <div class="example-card">
+            <strong>📌 "فلان عريض القفا"</strong><br>
+            <i class="fas fa-brain"></i> الصورة: عريض القفا ← البلادة.<br>
+            <i class="fas fa-arrow-left"></i> النوع: كناية عن صفة بعيدة.
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- القسم 7: البلاغة العُمانية -->
+    <!-- ========================================= -->
+    <h2 id="omani" data-aos="fade-right">🇴🇲 ❼ البلاغة العُمانية: كنايات، مجازات، استعارات</h2>
+    
+    <div class="card" data-aos="zoom-in">
+        <div class="concept-image">
+            <i class="fas fa-mountain"></i>
+            <div class="icon-title">من المجتمع العُماني</div>
+            <div style="font-size: 0.85rem; margin-top: 5px;">ⓘ تختلف الأمثلة حسب المنطقة (الباطنة، الداخلية، ظفار، الشرقية، مسقط)</div>
+        </div>
+        
+        <div class="omani-card">
+            <i class="fas fa-info-circle"></i> <strong>ملاحظة:</strong> هذه الأمثلة شائعة الاستخدام في المجتمع العُماني، وهي جزء من الثقافة اليومية والحكمة الشعبية.
+        </div>
+
+        <h3 style="color: #006442;">📌 الكنايات العُمانية</h3>
+        <table class="omani-table">
+            <thead><tr><th>التعبير</th><th>المعنى الظاهر</th><th>المعنى المقصود</th></tr></thead>
+            <tbody>
+                <tr><td>"فلان طويل يد"</td><td>يده طويلة</td><td>السرقة أو أخذ ما ليس له</td></tr>
+                <tr><td>"فلان أبيض الوجه"</td><td>وجهه أبيض</td><td>الشرف والسمعة الطيبة</td></tr>
+                <tr><td>"فلان ما يقصّر"</td><td>لا يقصر في شيء</td><td>الكرم والمساعدة</td></tr>
+                <tr><td>"فلان قلبه كبير"</td><td>قلبه كبير الحجم</td><td>التسامح والعفو</td></tr>
+                <tr><td>"فلان عينه مليانة"</td><td>عينه مملوءة</td><td>القناعة وعدم الطمع</td></tr>
+                <tr><td>"فلان رافع راس أهله"</td><td>رافع رأس أهله</td><td>الفخر والإنجاز</td></tr>
+                <tr><td>"فلان وجهه حار"</td><td>وجهه ساخن</td><td>الجرأة أو قلة الحياء</td></tr>
+            </tbody>
+        </table>
+
+        <h3 style="color: #006442;">🌊 الاستعارات العُمانية</h3>
+        <table class="omani-table">
+            <thead><tr><th>التعبير</th><th>المعنى</th></tr></thead>
+            <tbody>
+                <tr><td>"البحر غدار"</td><td>خطر البحر وعدم أمانه</td></tr>
+                <tr><td>"الصحراء تبتلع الطريق"</td><td>قسوة البيئة الصحراوية</td></tr>
+                <tr><td>"النخلة أمّ العطاء"</td><td>كثرة خير النخلة</td></tr>
+                <tr><td>"الزمن سيف"</td><td>سرعة مرور الوقت وتأثيره</td></tr>
+                <tr><td>"الرجال جبال"</td><td>القوة والثبات</td></tr>
+            </tbody>
+        </table>
+
+        <h3 style="color: #006442;">🌾 المجازات العُمانية</h3>
+        <table class="omani-table">
+            <thead><tr><th>التعبير</th><th>المعنى المجازي</th></tr></thead>
+            <tbody>
+                <tr><td>"أكل بعقله حلاوة"</td><td>خداع شخص بسهولة</td></tr>
+                <tr><td>"طاح حظه"</td><td>سوء الحظ</td></tr>
+                <tr><td>"طار النوم من عيونه"</td><td>الأرق أو القلق</td></tr>
+                <tr><td>"شد حيله"</td><td>بذل الجهد</td></tr>
+                <tr><td>"كسر خاطري"</td><td>الحزن أو التأثر</td></tr>
+            </tbody>
+        </table>
+
+        <h3 style="color: #006442;">🏡 تعبيرات ثقافية عُمانية</h3>
+        <table class="omani-table">
+            <thead><tr><th>التعبير</th><th>المعنى</th></tr></thead>
+            <tbody>
+                <tr><td>"البيت بيتك"</td><td>الكرم والترحيب</td></tr>
+                <tr><td>"الضيف له قدره"</td><td>احترام الضيف</td></tr>
+                <tr><td>"الجار قبل الدار"</td><td>أهمية الجار</td></tr>
+                <tr><td>"اللي ما له أول ما له تالي"</td><td>أهمية الأصل والتاريخ</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- القسم 8: الأسئلة التقويمية -->
+    <!-- ========================================= -->
+    <h2 id="quiz" data-aos="fade-right">📝 ❽ أسئلة تقويمية تفاعلية</h2>
+    <div class="quiz-section" data-aos="fade-up">
+        <div class="concept-image" style="margin-bottom: 20px;">
+            <i class="fas fa-clipboard-list"></i>
+            <div class="icon-title">اختبر فهمك للكناية</div>
+        </div>
+        <div id="quizContainer"></div>
+        <div style="text-align: center;">
+            <button class="quiz-btn" id="submitQuizBtn"><i class="fas fa-check-circle"></i> تصحيح الإجابات</button>
+            <button class="quiz-btn" id="resetQuizBtn"><i class="fas fa-redo-alt"></i> إعادة المحاولة</button>
+        </div>
+        <div id="quizResult" class="quiz-result" style="display: none;"></div>
+    </div>
+
+    <!-- خاتمة -->
+    <div style="padding: 20px; border-radius: 40px; text-align: center; background:#fef5e7; margin-top: 30px;" data-aos="fade-up">
+        🔑 <strong>المفتاح الذهبي:</strong> هل يمكن أن يكون المعنى الظاهر صحيحًا مع المعنى الخفي؟<br>
+        ✅ نعم → كناية &nbsp;&nbsp;&nbsp; ❌ لا → مجاز / استعارة
+    </div>
+
+    <footer>
+        📚 المصادر: جواهر البلاغة، أسرار البلاغة + أمثال وحكم من المجتمع العُماني<br>
+        🌐 الأطلس التفاعلي | بلاغة عُمانية | أسئلة تقويمية
+    </footer>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 800, once: false, mirror: true });
+
+    // الأسئلة التقويمية (كاملة)
+    const questions = [
+        { text: "1. 'طويل النجاد' كناية عن:", options: ["طول السيف", "طول القامة", "الكرم", "الشجاعة"], correct: 1, explanation: "طول النجاد يلزمه طول القامة." },
+        { text: "2. الفرق بين الكناية والمجاز:", options: ["الكناية علاقتها المشابهة", "الكناية يجوز فيها المعنى الحقيقي", "المجاز أبلغ", "لا فرق"], correct: 1, explanation: "الكناية يجوز فيها المعنى الحقيقي مع المجازي." },
+        { text: "3. 'هو جبان الكلب' كناية عن:", options: ["الجبن", "الشجاعة", "الكرم", "البخل"], correct: 2, explanation: "جبن الكلب يدل على كثرة الزوار والكرم." },
+        { text: "4. 'نقي الثوب' كناية عن:", options: ["الغنى", "النظافة", "العفة والنزاهة", "الجمال"], correct: 2, explanation: "نظافة الثوب تلزم طهارة صاحبه." },
+        { text: "5. 'موطن الأسرار' كناية عن:", options: ["البيت", "القلب", "العقل", "الصدر"], correct: 1, explanation: "الأسرار تُكتم في القلب." },
+        { text: "6. 'فلان أبيض الوجه' في الثقافة العُمانية كناية عن:", options: ["الجمال", "الشرف والسمعة الطيبة", "الغنى", "الذكاء"], correct: 1, explanation: "من الأمثال العُمانية الشائعة." },
+        { text: "7. 'فلان طويل يد' في الثقافة العُمانية كناية عن:", options: ["الكرم", "السرقة", "القوة", "الطول"], correct: 1, explanation: "تعبير عُماني أصيل." },
+        { text: "8. 'البحر غدار' في الثقافة العُمانية:", options: ["حقيقة", "استعارة", "مجاز", "كناية"], correct: 1, explanation: "استعارة تصريحية تصف خطر البحر." },
+        { text: "9. 'الرجال جبال' في الثقافة العُمانية:", options: ["تشبيه", "استعارة", "كناية", "مجاز"], correct: 1, explanation: "استعارة تصريحية للقوة والثبات." },
+        { text: "10. 'البيت بيتك' في الثقافة العُمانية تدل على:", options: ["الملكية", "الكرم والترحيب", "الفخر", "القوة"], correct: 1, explanation: "من أبرز تعبيرات الكرم العُماني." }
+    ];
+
+    let userAnswers = new Array(questions.length).fill(null);
+
+    function renderQuiz() {
+        const container = document.getElementById('quizContainer');
+        if (!container) return;
+        let html = '';
+        questions.forEach((q, idx) => {
+            html += `<div class="quiz-question"><p>${q.text}</p>`;
+            q.options.forEach((opt, optIdx) => {
+                const checked = (userAnswers[idx] === optIdx) ? 'checked' : '';
+                html += `<label><input type="radio" name="q${idx}" value="${optIdx}" ${checked} onchange="setAnswer(${idx}, ${optIdx})"> ${opt}</label>`;
+            });
+            html += `</div>`;
+        });
+        container.innerHTML = html;
+    }
+
+    window.setAnswer = function(qIdx, optIdx) { userAnswers[qIdx] = optIdx; };
+
+    function evaluateQuiz() {
+        let score = 0;
+        let resultHtml = '<h3>نتيجة الاختبار:</h3>';
+        for (let i = 0; i < questions.length; i++) {
+            const isCorrect = (userAnswers[i] === questions[i].correct);
+            if (isCorrect) score++;
+            resultHtml += `<div class="${isCorrect ? 'correct-answer' : 'wrong-answer'}">
+                            ${isCorrect ? '✅' : '❌'} السؤال ${i+1}: ${questions[i].text}<br>
+                            <small>${questions[i].explanation}</small>
+                           </div>`;
+        }
+        resultHtml += `<div class="score-badge">درجتك: ${score} / ${questions.length}</div>`;
+        document.getElementById('quizResult').innerHTML = resultHtml;
+        document.getElementById('quizResult').style.display = 'block';
+    }
+
+    function resetQuiz() { userAnswers.fill(null); renderQuiz(); document.getElementById('quizResult').style.display = 'none'; }
+    
+    document.getElementById('submitQuizBtn').addEventListener('click', evaluateQuiz);
+    document.getElementById('resetQuizBtn').addEventListener('click', resetQuiz);
+    renderQuiz();
+</script>
+</body>
+</html>
